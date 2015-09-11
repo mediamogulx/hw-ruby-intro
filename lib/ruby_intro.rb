@@ -80,5 +80,43 @@ end
 # Part 3
 
 class BookInStock
-# YOUR CODE HERE
+  attr_accessor:isbn
+  attr_accessor:price
+  
+  def initialize(isbn, price)
+    @isbn = isbn
+    @price = price
+    if @isbn == ""
+      raise ArgumentError, "ISBN must be identified. #{@isbn} given."
+    end
+    if @price < 0 
+      raise ArgumentError, "Price cannot be negative. #{@price} given."
+    end
+    if @price == 0 
+      raise ArgumentError, "Price cannot be zero. #{@price} given."
+    end
+  end
+  
+  def price_as_string
+    sPrice = @price.to_s
+    parts = sPrice.split(".")
+    pr = sPrice #initiate to set the scope
+    ct = 0      #initiate to set the scope
+    parts.each do |a|
+      ct += 1
+      if ct == 1
+        pr = "$#{a}"      #set the dollars portion of the string
+      end
+      if ct == 2
+        pr += ".#{a}"     #set the cents portion of the string
+        if a.length < 2
+          pr += "0"       #append 0 to the cents value if no trailing 0
+        end
+      end
+    end
+    if ct == 1
+      pr += ".00"         #append .00 if value is whole-dollar
+    end
+    return pr
+  end
 end
